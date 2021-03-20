@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Face mask detection</string>
+    <string name="mask">mask</string>
+    <string name="less_pass">Password too short, enter minimum 8 characters!</string>
+    <string name="passAlert">Password must contain alphabet, Number and special character. </string>
+    <string name="greaterthan6">Password must be at least 8 character long</string>
+
+</resources>

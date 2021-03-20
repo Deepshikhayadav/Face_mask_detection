@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/dark"
+        android:icon="@drawable/invert_colors_24"
+        app:showAsAction="ifRoom|withText"
+        android:title="Mode">
+    </item>
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/image"
+        app:showAsAction="ifRoom|withText"
+        android:title="log out">
+    </item>
+</menu>

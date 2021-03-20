@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ForgotPass"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="15dp"
+        android:textColor="@color/text"
+        android:text="Enter Your Registered Email ID to sent you password reset instruction "
+        android:textSize="18dp"
+         />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_back"
+        android:hint="Enter Email-ID"
+        android:cursorVisible="true"
+        android:focusableInTouchMode="true"
+        android:padding="12dp"
+        android:textColorHint="@color/text"
+        android:textColor="@color/text"
+        android:focusable="true"
+        android:textSize="15dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        />
+
+    <Button
+        android:id="@+id/buttonclick"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Click"
+        android:textSize="18dp"
+        android:padding="10dp"
+        android:backgroundTint="@color/button"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"/>
+
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center|bottom"
+        android:visibility="gone"
+         />
+</LinearLayout>

@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "807410605542",
+    "firebase_url": "https://camerasource-6835b-default-rtdb.firebaseio.com",
+    "project_id": "camerasource-6835b",
+    "storage_bucket": "camerasource-6835b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807410605542:android:b4bf0d04a1bacc60338a27",
+        "android_client_info": {
+          "package_name": "com.deepshikhayadav.facemaskdetection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807410605542-jplbvj2gi8e0bqhp6qlkp46n985rhna1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBolOlkXG8zeMvbvMJvwGpXciQeFRSYJYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807410605542-jplbvj2gi8e0bqhp6qlkp46n985rhna1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807410605542:android:02143843ca2562ba338a27",
+        "android_client_info": {
+          "package_name": "com.smarthub.amargeetacollege"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807410605542-13immcgn0ss0qrqj0qvmqbb6gpl2kr9m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smarthub.amargeetacollege",
+            "certificate_hash": "404c26ffe0fb98dded21081e8a0c8723189b8367"
+          }
+        },
+        {
+          "client_id": "807410605542-jplbvj2gi8e0bqhp6qlkp46n985rhna1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBolOlkXG8zeMvbvMJvwGpXciQeFRSYJYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807410605542-jplbvj2gi8e0bqhp6qlkp46n985rhna1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807410605542:android:8d19dcb1ae124e25338a27",
+        "android_client_info": {
+          "package_name": "com.smarthub.camerasource"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807410605542-jplbvj2gi8e0bqhp6qlkp46n985rhna1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBolOlkXG8zeMvbvMJvwGpXciQeFRSYJYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807410605542-jplbvj2gi8e0bqhp6qlkp46n985rhna1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
