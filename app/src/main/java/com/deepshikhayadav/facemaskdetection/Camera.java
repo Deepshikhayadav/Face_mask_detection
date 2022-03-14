@@ -144,8 +144,7 @@ TextView textView;
                                 new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        // Task failed with an exception
-                                        // ...
+                                        
                                     }
                                 });
 
