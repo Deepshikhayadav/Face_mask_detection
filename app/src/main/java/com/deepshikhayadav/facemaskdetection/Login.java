@@ -28,20 +28,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
-ImageView imageView,Visible;
-Button signin;
-TextView forgot;
-EditText logemail,logpass;
-private FirebaseAuth auth;
-private ProgressBar progressBar;
-    Boolean c=true;
+    ImageView imageView, Visible;
+    Button signin;
+    TextView forgot;
+    EditText logemail, logpass;
+    private FirebaseAuth auth;
+    private ProgressBar progressBar;
+    Boolean c = true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool);
@@ -58,13 +57,13 @@ private ProgressBar progressBar;
         });
 
 
-        imageView=findViewById(R.id.imageView);
-        signin=findViewById(R.id.signin);
-        forgot=findViewById(R.id.forgot);
-        logemail=findViewById(R.id.logEmail);
-        logpass=findViewById(R.id.logPassword);
+        imageView = findViewById(R.id.imageView);
+        signin = findViewById(R.id.signin);
+        forgot = findViewById(R.id.forgot);
+        logemail = findViewById(R.id.logEmail);
+        logpass = findViewById(R.id.logPassword);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        Visible=findViewById(R.id.visible);
+        Visible = findViewById(R.id.visible);
 
 
         RequestOptions options = new RequestOptions()
@@ -72,81 +71,60 @@ private ProgressBar progressBar;
                 .placeholder(R.mipmap.ic_launcher_round)
                 .error(R.mipmap.ic_launcher_round);
 
-        String image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWZo3Onmz9BQjqD89qNIbFhP2U2jWaeMa4TQ&usqp=CAU";
+        String image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWZo3Onmz9BQjqD89qNIbFhP2U2jWaeMa4TQ&usqp=CAU";
         Glide.with(this).load(image_url).apply(options).into(imageView);
 
-        forgot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetPassword();
+        forgot.setOnClickListener(v -> resetPassword());
 
-            }
-        });
-
-        Visible.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            if (c!=true){
+        Visible.setOnClickListener(v -> {
+            if (c != true) {
                 logpass.setTransformationMethod(null);
                 Visible.setImageResource(R.drawable.visibility_off);
-                c=true;
+                c = true;
 
-            }
-            else {
+            } else {
                 logpass.setTransformationMethod(new PasswordTransformationMethod());
                 Visible.setImageResource(R.drawable.eye);
-                c=false;
+                c = false;
             }
 
 
-            }
         });
 
 
-//Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = logemail.getText().toString();
-                final String password = logpass.getText().toString();
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                progressBar.setVisibility(View.VISIBLE);
-
-                auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
-                                if (!task.isSuccessful()) {
-                                    // there was an error
-
-                                        Toast.makeText(Login.this, "Auth Failed!", Toast.LENGTH_LONG).show();
-
-                                } else {
-                                    checkIfEmailVerified();
-                                   /*Intent intent = new Intent(Login.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-*/                                }
-                                }
-                        });
-
+        signin.setOnClickListener(v -> {
+            String email = logemail.getText().toString();
+            final String password = logpass.getText().toString();
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                return;
             }
+            if (TextUtils.isEmpty(password)) {
+                Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            progressBar.setVisibility(View.VISIBLE);
+
+            auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            progressBar.setVisibility(View.GONE);
+                            if (!task.isSuccessful()) {
+
+                                Toast.makeText(Login.this, "Auth Failed!", Toast.LENGTH_LONG).show();
+
+                            } else {
+                                checkIfEmailVerified();
+
+                            }
+                        }
+                    });
+
         });
-
-
 
 
     }
@@ -155,22 +133,16 @@ private ProgressBar progressBar;
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user.isEmailVerified())
-        {
-            // user is verified, so you can finish this activity or send user to activity which you want.
+        if (user.isEmailVerified()) {
 
             Toast.makeText(Login.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
             finish();
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-        }
-        else
-        {
-            // email is not verified, so just prompt the message to the user and restart this activity.
-            // NOTE: don't forget to log out the user.
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        } else {
+
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(Login.this, "Verify Your Email Address", Toast.LENGTH_SHORT).show();
 
-            //restart this activity
 
         }
     }
@@ -186,30 +158,24 @@ private ProgressBar progressBar;
         final ProgressBar progressBar1 = (ProgressBar) dialogView.findViewById(R.id.progressBar1);
         final AlertDialog dialog = dialogBuilder.create();
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = editEmail.getText().toString().trim();
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                progressBar1.setVisibility(View.VISIBLE);
-
-                auth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Login.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(Login.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
-                                }
-                                progressBar1.setVisibility(View.GONE);
-                                dialog.dismiss();
-                            }
-                        });
+        btnReset.setOnClickListener(v -> {
+            String email = editEmail.getText().toString().trim();
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
+                return;
             }
+            progressBar1.setVisibility(View.VISIBLE);
+
+            auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(Login.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Login.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                        }
+                        progressBar1.setVisibility(View.GONE);
+                        dialog.dismiss();
+                    });
         });
 
         dialog.show();

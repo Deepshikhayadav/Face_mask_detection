@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ForgotPass"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ForgotPass">
 
 
     <TextView
@@ -15,38 +15,36 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="15dp"
-        android:textColor="@color/text"
         android:text="Enter Your Registered Email ID to sent you password reset instruction "
-        android:textSize="18dp"
-         />
+        android:textColor="@color/text"
+        android:textSize="18dp" />
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_back"
-        android:hint="Enter Email-ID"
-        android:cursorVisible="true"
-        android:focusableInTouchMode="true"
-        android:padding="12dp"
-        android:textColorHint="@color/text"
-        android:textColor="@color/text"
-        android:focusable="true"
-        android:textSize="15dp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-        />
+        android:background="@drawable/login_back"
+        android:cursorVisible="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="Enter Email-ID"
+        android:padding="12dp"
+        android:textColor="@color/text"
+        android:textColorHint="@color/text"
+        android:textSize="15dp" />
 
     <Button
         android:id="@+id/buttonclick"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Click"
-        android:textSize="18dp"
-        android:padding="10dp"
-        android:backgroundTint="@color/button"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/button"
+        android:padding="10dp"
+        android:text="Click"
+        android:textSize="18dp" />
 
 
     <ProgressBar
@@ -54,6 +52,5 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center|bottom"
-        android:visibility="gone"
-         />
+        android:visibility="gone" />
 </LinearLayout>

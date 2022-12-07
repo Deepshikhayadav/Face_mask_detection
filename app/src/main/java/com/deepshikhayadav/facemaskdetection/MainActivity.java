@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -61,93 +62,81 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("Face Mask Detection");
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.inflateMenu(R.menu.menu);
-        arrayList=new ArrayList<Grid_model>();
+        arrayList = new ArrayList<>();
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+        toolbar.setOnMenuItemClickListener(item -> {
 
-                if (item.getItemId() == R.id.dark) {
-                    SharedPreferences sharedPreferences
-                            = getSharedPreferences(
-                            "sharedPrefs", MODE_PRIVATE);
-                    final SharedPreferences.Editor editor
-                            = sharedPreferences.edit();
-                    final boolean isDarkModeOn
-                            = sharedPreferences
-                            .getBoolean(
-                                    "isDarkModeOn", true);
-
-                    // When user reopens the app
-                    // after applying dark/light mode
-                    if (isDarkModeOn) {
-                        AppCompatDelegate
-                                .setDefaultNightMode(
-                                        AppCompatDelegate
-                                                .MODE_NIGHT_YES);
-
-                    } else {
-                        AppCompatDelegate
-                                .setDefaultNightMode(
-                                        AppCompatDelegate
-                                                .MODE_NIGHT_NO);
-
-                    }
-
-                    if (isDarkModeOn) {
-
-                        // if dark mode is on it
-                        // will turn it off
-                        AppCompatDelegate
-                                .setDefaultNightMode(
-                                        AppCompatDelegate
-                                                .MODE_NIGHT_NO);
-                        // it will set isDarkModeOn
-                        // boolean to false
-                        editor.putBoolean(
-                                "isDarkModeOn", false);
-                        editor.apply();
-
-
-                    } else {
-
-                        // if dark mode is off
-                        // it will turn it on
-                        AppCompatDelegate
-                                .setDefaultNightMode(
-                                        AppCompatDelegate
-                                                .MODE_NIGHT_YES);
-                        editor.putBoolean(
+            if (item.getItemId() == R.id.dark) {
+                SharedPreferences sharedPreferences
+                        = getSharedPreferences(
+                        "sharedPrefs", MODE_PRIVATE);
+                final SharedPreferences.Editor editor
+                        = sharedPreferences.edit();
+                final boolean isDarkModeOn
+                        = sharedPreferences
+                        .getBoolean(
                                 "isDarkModeOn", true);
-                        editor.apply();
-                    }
 
+                if (isDarkModeOn) {
+                    AppCompatDelegate
+                            .setDefaultNightMode(
+                                    AppCompatDelegate
+                                            .MODE_NIGHT_YES);
 
-                } else if (item.getItemId() == R.id.logout) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Log Out");
-                    // builder.setIcon(R.drawable.image);
-                    builder.setMessage("Do you want to log out?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-
-                                    FirebaseAuth.getInstance().signOut();
-                                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-
-                                    Toast.makeText(getApplicationContext(), "Log Out Successfully!!",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setNegativeButton("Cancel", null);
-                    AlertDialog alert=builder.create();
-                    alert.show();
-
+                } else {
+                    AppCompatDelegate
+                            .setDefaultNightMode(
+                                    AppCompatDelegate
+                                            .MODE_NIGHT_NO);
 
                 }
 
-                return true;
-//return false;
+                if (isDarkModeOn) {
+
+                    AppCompatDelegate
+                            .setDefaultNightMode(
+                                    AppCompatDelegate
+                                            .MODE_NIGHT_NO);
+
+                    editor.putBoolean(
+                            "isDarkModeOn", false);
+                    editor.apply();
+
+
+                } else {
+
+                    AppCompatDelegate
+                            .setDefaultNightMode(
+                                    AppCompatDelegate
+                                            .MODE_NIGHT_YES);
+                    editor.putBoolean(
+                            "isDarkModeOn", true);
+                    editor.apply();
+                }
+
+
+            } else if (item.getItemId() == R.id.logout) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Log Out");
+
+                builder.setMessage("Do you want to log out?")
+                        .setPositiveButton("Yes", (dialog, id) -> {
+
+                            FirebaseAuth.getInstance().signOut();
+                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
+                            Toast.makeText(getApplicationContext(), "Log Out Successfully!!",
+                                    Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("Cancel", null);
+                AlertDialog alert = builder.create();
+                alert.show();
+
+
             }
+
+            return true;
+
         });
 
 
@@ -155,53 +144,44 @@ public class MainActivity extends AppCompatActivity {
         if (signInAccount != null) {
 
 
-            Profile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            Profile.setOnClickListener(v -> {
 
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), 12);
-                }
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 12);
             });
             name.setText(signInAccount.getDisplayName());
             email.setText(signInAccount.getEmail());
         }
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                startActivityForResult(intent, CAMERA_REQUEST);
+            startActivityForResult(intent, CAMERA_REQUEST);
 
 
-            }
         });
     }
-
-
 
 
     @Override
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = getSharedPreferences("sharepref", MODE_PRIVATE);
-        //  SharedPreferences.Editor editor = sharedPreferences.edit();
-        String s=sharedPreferences.getString("imagePreferance","");
+
+        String s = sharedPreferences.getString("imagePreferance", "");
         Profile.setImageBitmap(decodeBase64(s));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 12 && resultCode == RESULT_OK && data != null && data.getData()!=null) {
+        if (requestCode == 12 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
-                //Toast.makeText(getApplicationContext(),"image uploading",Toast.LENGTH_SHORT).show();
-                imageuri=data.getData();
+                imageuri = data.getData();
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageuri);
-                SharedPreferences sharedPreferences= getSharedPreferences("sharepref", MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences("sharepref", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("imagePreferance", EncodeToBase64(bitmap));
                 editor.commit();
@@ -232,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Bitmap decodeBase64(String imageEncoded) {
         byte[] decodedByte = Base64.decode(imageEncoded, 0);
-        Bitmap output=BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+        Bitmap output = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
         return output;
     }
 
@@ -245,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
 
         return imageEncoded;
     }
-
 
 
     @Override

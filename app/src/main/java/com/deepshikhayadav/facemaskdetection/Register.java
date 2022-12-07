@@ -29,13 +29,14 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.regex.Pattern;
 
 public class Register extends AppCompatActivity {
-ImageView imageView,Visible,Visible2;
-EditText email,pass,pass2;
-Button button;
-TextView account,Alert;
-FirebaseAuth mFirebaseAuth;
-Boolean c=true;
-private ProgressBar progressBar;
+    ImageView imageView, Visible, Visible2;
+    EditText email, pass, pass2;
+    Button button;
+    TextView account, Alert;
+    FirebaseAuth mFirebaseAuth;
+    Boolean c = true;
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,16 +46,8 @@ private ProgressBar progressBar;
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        toolbar.setNavigationOnClickListener(view -> onBackPressed());
 
-                onBackPressed();
-            }
-        });
-
-
-//Get Firebase auth instance
         mFirebaseAuth = FirebaseAuth.getInstance();
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         imageView = findViewById(R.id.imageView);
@@ -65,7 +58,7 @@ private ProgressBar progressBar;
         account = findViewById(R.id.act);
         Visible = findViewById(R.id.visible);
         Visible2 = findViewById(R.id.visible2);
-        Alert=findViewById(R.id.alert);
+        Alert = findViewById(R.id.alert);
 
 
         RequestOptions options = new RequestOptions()
@@ -77,109 +70,89 @@ private ProgressBar progressBar;
         Glide.with(this).load(image_url).apply(options).into(imageView);
 
 
-        Visible2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (c != true) {
-                    pass2.setTransformationMethod(null);
-                    Visible2.setImageResource(R.drawable.visibility_off);
-                    c = true;
+        Visible2.setOnClickListener(v -> {
+            if (c != true) {
+                pass2.setTransformationMethod(null);
+                Visible2.setImageResource(R.drawable.visibility_off);
+                c = true;
 
-                } else {
-                    pass2.setTransformationMethod(new PasswordTransformationMethod());
-                    Visible2.setImageResource(R.drawable.eye);
-                    c = false;
-                }
+            } else {
+                pass2.setTransformationMethod(new PasswordTransformationMethod());
+                Visible2.setImageResource(R.drawable.eye);
+                c = false;
             }
         });
 
-        Visible.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (c != true) {
-                    pass.setTransformationMethod(null);
-                    Visible.setImageResource(R.drawable.visibility_off);
-                    c = true;
+        Visible.setOnClickListener(v -> {
+            if (c != true) {
+                pass.setTransformationMethod(null);
+                Visible.setImageResource(R.drawable.visibility_off);
+                c = true;
 
-                } else {
-                    pass.setTransformationMethod(new PasswordTransformationMethod());
-                    Visible.setImageResource(R.drawable.eye);
-                    c = false;
-                }
+            } else {
+                pass.setTransformationMethod(new PasswordTransformationMethod());
+                Visible.setImageResource(R.drawable.eye);
+                c = false;
             }
         });
-        account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Login.class));
-            }
-        });
+        account.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Login.class)));
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String Email = email.getText().toString().trim();
-                String password = pass.getText().toString().trim();
-                String password2 = pass2.getText().toString().trim();
+        button.setOnClickListener(v -> {
+            String Email = email.getText().toString().trim();
+            String password = pass.getText().toString().trim();
+            String password2 = pass2.getText().toString().trim();
 
-                if (TextUtils.isEmpty(Email)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            if (TextUtils.isEmpty(Email)) {
+                Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            } else {
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (TextUtils.isEmpty(password)) {
-                        Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    if (password.length() < 8) {
+                        Alert.setVisibility(View.VISIBLE);
+                        Alert.setText(R.string.greaterthan6);
                     } else {
-                        if (password.length() < 8) {
-                          Alert.setVisibility(View.VISIBLE);
-                          Alert.setText(R.string.greaterthan6);
-                          //  Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                        Alert.setVisibility(View.GONE);
+                        if (!isValidPassword(password)) {
+                            Alert.setVisibility(View.VISIBLE);
+                            Alert.setText(R.string.passAlert);
                         } else {
                             Alert.setVisibility(View.GONE);
-                            if (!isValidPassword(password)) {
-                                Alert.setVisibility(View.VISIBLE);
-                                Alert.setText(R.string.passAlert);
-                                //Toast.makeText(getApplicationContext(), "Invalid password! ", Toast.LENGTH_SHORT).show();
+                            if (!password.equals(password2)) {
+                                Toast.makeText(getApplicationContext(), "Password mismatch", Toast.LENGTH_SHORT).show();
+
                             } else {
-                                Alert.setVisibility(View.GONE);
-                                if (!password.equals(password2)) {
-                                    Toast.makeText(getApplicationContext(), "Password mismatch", Toast.LENGTH_SHORT).show();
 
-                                } else {
+                                progressBar.setVisibility(View.VISIBLE);
 
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    //create user
-                                    mFirebaseAuth.createUserWithEmailAndPassword(Email, password)
-                                            .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                mFirebaseAuth.createUserWithEmailAndPassword(Email, password)
+                                        .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
 
 
-                                                    Toast.makeText(Register.this, "Login Successful!" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
-                                                    progressBar.setVisibility(View.GONE);
+                                                Toast.makeText(Register.this, "Login Successful!" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
 
-                                                    // If sign in fails, display a message to the user. If sign in succeeds
-                                                    // the auth state listener will be notified and logic to handle the
-                                                    // signed in user can be handled in the listener.
-                                                    if (!task.isSuccessful()) {
-                                                        Toast.makeText(Register.this, "Authentication failed." + task.getException(),
-                                                                Toast.LENGTH_SHORT).show();
-                                                    } else {
-                                                        sendVerificationEmail();
-                                   /* startActivity(new Intent(getApplicationContext(), Login.class));
-                                    finish();*/
-                                                    }
+                                                if (!task.isSuccessful()) {
+                                                    Toast.makeText(Register.this, "Authentication failed." + task.getException(),
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    sendVerificationEmail();
 
                                                 }
-                                            });
-                                }
+
+                                            }
+                                        });
                             }
-
-
                         }
+
+
                     }
                 }
-
             }
+
         });
 
 
@@ -199,7 +172,7 @@ private ProgressBar progressBar;
 
         user.sendEmailVerification()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    private static final String TAG ="log" ;
+                    private static final String TAG = "log";
 
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -210,14 +183,11 @@ private ProgressBar progressBar;
                                     Toast.LENGTH_SHORT).show();
 
 
-
                             // after email is sent just logout the user and finish this activity
                             FirebaseAuth.getInstance().signOut();
                             startActivity(new Intent(Register.this, Login.class));
                             finish();
-                        }
-                        else
-                        {
+                        } else {
 
                             Log.e(TAG, "sendEmailVerification", task.getException());
                             Toast.makeText(Register.this,
